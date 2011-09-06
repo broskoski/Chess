@@ -3,10 +3,8 @@
 	%head
 		%title Stalemate (Charles Broskoski & Karin Schnieder, 2011) 
 		= stylesheet_link_tag "application"
-	%body
+	%body.white
 		%br
-		#vertical
-			#horizontal
-				= yield
+		= yield
 		= javascript_include_tag "application"
 		= javascript_include_tag "http://js.pusherapp.com/1.8/pusher.min.js"

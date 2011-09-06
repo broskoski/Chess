@@ -3,8 +3,7 @@ $(function() {
 	//select available squares
 	$(".piece").click(function() {
 		
-		//activate_square($(this).attr("id"))
-		
+		$(this).addClass('selected');
 		trigger('click', $(this).attr("id"));
 		
 	});
@@ -66,7 +65,7 @@ $(function() {
 			board[''+arrayrow+''][''+rookcolumn+row+''] = "blank_e_e";
 			board[''+arrayrow+''][''+newrookcolumn+row+''] = "rook_"+color+"_false";
 			
-			post_move(cur_color, column+row, thiscolumn+thisrow, type, board, game_id);
+			post_move(cur_color, column+row, thiscolumn+thisrow, type, board, game_id, false, false, false, false, true);
 			
 			thepiece = $("#"+column+row).html();
 
@@ -185,7 +184,101 @@ $(function() {
 		}
 	});	
 });
+function move_attack(selectedpiece, squareid, capturedpiece){
+	
+	thisstuff = squareid.split("");
+	thiscolumn = thisstuff[0];
+	thisrow = thisstuff[1];
+	pieceid = $("#" + selectedpiece).attr("id");
+	color = $("#" + selectedpiece).attr("data-color");
+	bc = $("#" + selectedpiece).attr("data-bc");
+	piece = pieceid.split("");
+	type = piece[0];
+	column = piece[1];
+	row = piece[2];
+	
+	if(type == 'p'){
+		longtype = 'pawn';
+		if(color == 'b'){
+			if(parseInt(thisrow) == 1){
+				longtype = 'queen';
+				$("#" + selectedpiece).removeClass('b_pawn').addClass('b_queen');
+				type = 'Q';
+			}
+		}else{
+			if(parseInt(thisrow) == 8){
+				longtype = 'queen';
+				$("#" + selectedpiece).removeClass('w_pawn').addClass('w_queen');
+				type = 'Q';
+			}
+		}
+	}else if(type == 'R'){
+		longtype = 'rook';
+	}else if(type == 'B'){
+		longtype = 'bishop';
+	}else if(type == 'N'){
+		longtype = 'knight';
+	}else if(type == 'K'){
+		longtype = 'king';
+	}else if(type == 'Q'){
+		longtype = 'queen';
+	}
+	
+	if(current_color == 'white'){
+		next_move = 'black';
+	}else{
+		next_move = 'white';
+	}
+	
+	j=0;
+	for(i=8; i >= 0; i--){
+		if(thisrow == i){
+			thisarrayrow = j;
+		}
+		if(row == i){
+			arrayrow = j;
+		}
+		j++;
+	}
+	
+	board[''+arrayrow+''][''+column+row+''] = "blank_e_e";
+	board[''+thisarrayrow+''][''+thiscolumn+thisrow+''] = longtype+'_'+color+'_'+bc;
+	
+	thepiece = $("#"+column+row).html();
+	$("#"+column+row).html("&nbsp;");
+	$("#"+squareid).html(thepiece);
+	
+	$("#" + selectedpiece).attr('id',type+squareid);
+	
+	clear_selected();
+	
+	//first check if move puts king in check
+	self_check = check_checked(cur_color);
+	if(self_check){
+		alert("This moves puts you in check and is not allowed. Reseting board.");
+		window.location.href=window.location.href;
+		return;
+	}
+	
+	//ajax check and submit
+	piece_checking = check_checked(opposite_color);
+	
+	if(piece_checking){
+		mate = check_mate(piece_checking);
+		if(mate){
+			post_move(cur_color, column+row, thiscolumn+thisrow, type, board, game_id, false, false, true, true)
+		}else{
+			post_move(cur_color, column+row, thiscolumn+thisrow, type, board, game_id, false, true, false, true);
+		}
+	}else{
+		post_move(cur_color, column+row, thiscolumn+thisrow, type, board, game_id, false, false, false, true);
+	}
+	
+}
 function activate_square(chesspiece){
+	
+	$('#'+chesspiece).addClass('active');
+	
 	piece = chesspiece.split("");
 	
 	type = piece[0];
@@ -225,15 +318,22 @@ function activate_square(chesspiece){
 		$("#" + value).addClass("available_castle");
 	});
 }
-function post_move(color, from_square, to_square, piece, board, game_id, enpassantable, puts_in_check, checkmates, capture){
+function post_move(color, from_square, to_square, piece, board, game_id, enpassantable, puts_in_check, checkmates, capture, castle){
 	
 	enpassantable = enpassantable || false;
 	puts_in_check = puts_in_check || false;
 	checkmates = checkmates || false;
 	capture = capture || false;
+	castle = castle || false;
 	
 	in_check = puts_in_check? opposite_color : "";
 	winner = checkmates? cur_color : "";
+	
+	piece = piece == 'p' ? "": piece;
+	check_notation = puts_in_check? "+" : "";
+	capture_notation = capture ? "x" : "";
+	
+	castle ? notation = "0-0" : notation = piece + capture_notation + to_square + check_notation;
 	
 	$.ajax({
 		url: '/moves/',
@@ -246,6 +346,7 @@ function post_move(color, from_square, to_square, piece, board, game_id, enpassa
 				game_id: game_id,
 				enpassantable: enpassantable,
 				puts_in_check: puts_in_check,
+				notation: notation,
 				checkmates: checkmates
 			},	
 		},
@@ -268,4 +369,7 @@ function post_move(color, from_square, to_square, piece, board, game_id, enpassa
 			});
 		}
 	});
+}
+function trigger(event, data){
+	$.get('/trigger', {event:event, data:data});
 }

@@ -23,8 +23,7 @@ $(document).ready(function() {
 	var channel = pusher.subscribe('chess_channel');
 	channel.bind('click',
 	  function(data) {
-		console.log(data['data']);
-	    activate_square(data['data']);
+		activate_square(data['data']);
 	  }
 	);
 	channel.bind('move',
@@ -35,112 +34,21 @@ $(document).ready(function() {
 		to_square = square [1];
 		
 		thepiece = $("#"+from_square).html();
-		$("#"+from_square).html("&nbsp;");
-		$("#"+to_square).html(thepiece);
-		clear_selected();
+		
+		if($("#"+from_square).html() !== "&nbsp;"){
+			$("#"+from_square).html("&nbsp;");
+			$("#"+to_square).html(thepiece);
+			clear_selected();
+		}
 		
 		window.location.href = window.location.href;
 	  }
 	);
 });
-function trigger(event, data){
-	$.get('/trigger', {event:event, data:data});
-}
-function move_attack(selectedpiece, squareid, capturedpiece){
-	
-	thisstuff = squareid.split("");
-	thiscolumn = thisstuff[0];
-	thisrow = thisstuff[1];
-	pieceid = $("#" + selectedpiece).attr("id");
-	color = $("#" + selectedpiece).attr("data-color");
-	bc = $("#" + selectedpiece).attr("data-bc");
-	piece = pieceid.split("");
-	type = piece[0];
-	column = piece[1];
-	row = piece[2];
-	
-	if(type == 'p'){
-		longtype = 'pawn';
-		if(color == 'b'){
-			if(parseInt(thisrow) == 1){
-				longtype = 'queen';
-				$('p').removeClass('b_pawn').addClass('b_queen');
-				type = 'Q';
-			}
-		}else{
-			if(parseInt(thisrow) == 8){
-				longtype = 'queen';
-				$('p').removeClass('w_pawn').addClass('w_queen');
-				type = 'Q';
-			}
-		}
-	}else if(type == 'R'){
-		longtype = 'rook';
-	}else if(type == 'B'){
-		longtype = 'bishop';
-	}else if(type == 'N'){
-		longtype = 'knight';
-	}else if(type == 'K'){
-		longtype = 'king';
-	}else if(type == 'Q'){
-		longtype = 'queen';
-	}
-	
-	if(current_color == 'white'){
-		next_move = 'black';
-	}else{
-		next_move = 'white';
-	}
-	
-	j=0;
-	for(i=8; i >= 0; i--){
-		if(thisrow == i){
-			thisarrayrow = j;
-		}
-		if(row == i){
-			arrayrow = j;
-		}
-		j++;
-	}
-	
-	board[''+arrayrow+''][''+column+row+''] = "blank_e_e";
-	board[''+thisarrayrow+''][''+thiscolumn+thisrow+''] = longtype+'_'+color+'_'+bc;
-	
-	thepiece = $("#"+column+row).html();
-	$("#"+column+row).html("&nbsp;");
-	$("#"+squareid).html(thepiece);
-	
-	$("#" + selectedpiece).attr('id',type+squareid);
-	
-	clear_selected();
-	
-	//first check if move puts king in check
-	self_check = check_checked(cur_color);
-	if(self_check){
-		alert("This moves puts you in check and is not allowed. Reseting board.");
-		window.location.href=window.location.href;
-		return;
-	}
-	
-	//ajax check and submit
-	piece_checking = check_checked(opposite_color);
-	
-	if(piece_checking){
-		mate = check_mate(piece_checking);
-		if(mate){
-			post_move(cur_color, column+row, thiscolumn+thisrow, type, board, game_id, false, false, true, true)
-		}else{
-			post_move(cur_color, column+row, thiscolumn+thisrow, type, board, game_id, false, true, false, true);
-		}
-	}else{
-		post_move(cur_color, column+row, thiscolumn+thisrow, type, board, game_id, false, false, false, true);
-	}
-	
-}
 function query_draw(){
 	var r = confirm("Draw?");
 	if (r == true){
-		$.post("http://charlesbroskoski.com/untitled/index.php?/chess/draw/", {  
+		$.post("/games/new", {  
 			complete: "true"
 		},
 		function(data){
@@ -323,6 +231,11 @@ function get_check_path(king_color, checking_piece){
 	ckingcolumn = ckingpiece[1];
 	ckingrow = ckingpiece[2];
 	check_id = $("#"+checking_piece).children().first().attr('id');
+	if(!check_id){
+		check_id = checking_piece;
+	}
+	console.log('checking_id:'+check_id)
+	console.log('checking_piece:'+checking_piece)
 	checkpiece = check_id.split("");
 	checktype = checkpiece[0];
 	checkcolumn = checkpiece[1];
@@ -391,6 +304,7 @@ function check_mate(piece_checking){
 		checktype = piece[0];
 		checkcolumn = piece[1];
 		checkrow = piece[2];
+		console.log(piece_checking);
 		get_check_path(opposite_color, piece_checking);
 		check_path.push(checkcolumn + checkrow);
 		
@@ -398,6 +312,7 @@ function check_mate(piece_checking){
 			piece = value.split("");
 			possiblecolumn = piece[0];
 			possiblerow = piece[1];
+			console.log('is_square_attacked:'+is_square_attacked(possiblerow, possiblecolumn, opposite_color))
 			if(is_square_attacked(possiblerow, possiblecolumn, opposite_color) != false){
 				return false;
 			}
