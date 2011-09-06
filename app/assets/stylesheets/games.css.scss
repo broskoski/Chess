@@ -1,5 +1,5 @@
-#board{width:600px;height:600px;margin:0 auto; background:url(board.png);}
-#board_check{width:600px;height:600px;margin:0 auto; background:url(board_check.png);}
+#board{width:600px;height:600px;margin:0 auto; background:url(https://s3.amazonaws.com/stalemate/images/board.png);}
+#board_check{width:600px;height:600px;margin:0 auto; background:url(https://s3.amazonaws.com/stalemate/images/board_check.png);}
 .box{width:75px;float:left;height:75px;}
 .available{background:#0012ff; opacity:.9; cursor:pointer;}
 .available:hover{opacity:.3; cursor:pointer;}
@@ -9,16 +9,16 @@
 .available_castle:hover{background:#f6ff65; opacity:.3; cursor:pointer;}
 .piece{cursor:pointer;}
 
-.w_pawn{background:url(w-pawn.png) center center no-repeat; width:75px;height:75px;}
-.w_rook{background:url(w-rook.png) center center no-repeat; width:75px;height:75px;}
-.w_bishop{background:url(w-bishop.png) center center no-repeat; width:75px;height:75px;}
-.w_king{background:url(w-king.png) center center no-repeat; width:75px;height:75px;}
-.w_queen{background:url(w-queen.png) center center no-repeat; width:75px;height:75px;}
-.w_knight{background:url(w-knight.png) center center no-repeat; width:75px;height:75px;}
+.w_pawn{background:url(https://s3.amazonaws.com/stalemate/images/w-pawn.png) center center no-repeat; width:75px;height:75px;}
+.w_rook{background:url(https://s3.amazonaws.com/stalemate/images/w-rook.png) center center no-repeat; width:75px;height:75px;}
+.w_bishop{background:url(https://s3.amazonaws.com/stalemate/images/w-bishop.png) center center no-repeat; width:75px;height:75px;}
+.w_king{background:url(https://s3.amazonaws.com/stalemate/images/w-king.png) center center no-repeat; width:75px;height:75px;}
+.w_queen{background:url(https://s3.amazonaws.com/stalemate/images/w-queen.png) center center no-repeat; width:75px;height:75px;}
+.w_knight{background:url(https://s3.amazonaws.com/stalemate/images/w-knight.png) center center no-repeat; width:75px;height:75px;}
 
-.b_pawn{background:url(b-pawn.png) center center no-repeat; width:75px;height:75px;}
-.b_rook{background:url(b-rook.png) center center no-repeat; width:75px;height:75px;}
-.b_bishop{background:url(b-bishop.png) center center no-repeat; width:75px;height:75px;}
-.b_king{background:url(b-king.png) center center no-repeat; width:75px;height:75px;}
-.b_queen{background:url(b-queen.png) center center no-repeat; width:75px;height:75px;}
-.b_knight{background:url(b-knight.png) center center no-repeat; width:75px;height:75px;}
+.b_pawn{background:url(https://s3.amazonaws.com/stalemate/images/b-pawn.png) center center no-repeat; width:75px;height:75px;}
+.b_rook{background:url(https://s3.amazonaws.com/stalemate/images/b-rook.png) center center no-repeat; width:75px;height:75px;}
+.b_bishop{background:url(https://s3.amazonaws.com/stalemate/images/b-bishop.png) center center no-repeat; width:75px;height:75px;}
+.b_king{background:url(https://s3.amazonaws.com/stalemate/images/b-king.png) center center no-repeat; width:75px;height:75px;}
+.b_queen{background:url(https://s3.amazonaws.com/stalemate/images/b-queen.png) center center no-repeat; width:75px;height:75px;}
+.b_knight{background:url(https://s3.amazonaws.com/stalemate/images/b-knight.png) center center no-repeat; width:75px;height:75px;}
