@@ -1,0 +1,28 @@
+@mixin shadow($color: rgba(0,0,0,0.25), $size: 12px, $position-left: -2px, $position-top: 2px) {
+	     -moz-box-shadow: $position-left $position-top $size $color; /* FF3.5+ */
+	  -webkit-box-shadow: $position-left $position-top $size $color; /* Saf3.0+, Chrome */
+	          box-shadow: $position-left $position-top $size $color; /* Opera 10.5, IE9, Chrome 10+ */
+}
+
+body{
+	width:600px;
+	margin:0 auto;
+	min-height:600px;
+	background:#000;
+}
+#vertical{
+	position:absolute;
+	top:50%;
+	margin-top:-300px;
+	left:0;
+	width:100%;
+}
+#horizontal{
+	width:600px;
+	margin-left:auto;
+	margin-right:auto;
+	height:600px;
+	overflow:hidden;
+	text-align:left;
+	@include shadow;
+}

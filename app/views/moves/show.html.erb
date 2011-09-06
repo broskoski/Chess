@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Color:</b>
+  <%= @move.color %>
+</p>
+
+<p>
+  <b>From square:</b>
+  <%= @move.from_square %>
+</p>
+
+<p>
+  <b>To square:</b>
+  <%= @move.to_square %>
+</p>
+
+<p>
+  <b>Notation:</b>
+  <%= @move.notation %>
+</p>
+
+<p>
+  <b>Puts in check:</b>
+  <%= @move.puts_in_check %>
+</p>
+
+<p>
+  <b>Checkmates:</b>
+  <%= @move.checkmates %>
+</p>
+
+<p>
+  <b>Ip:</b>
+  <%= @move.ip %>
+</p>
+
+
+<%= link_to 'Edit', edit_move_path(@move) %> |
+<%= link_to 'Back', moves_path %>

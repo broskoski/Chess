@@ -1,0 +1,5 @@
+@mixin shadow($color: rgba(0,0,0,0.05), $size: 5px, $position-left: -1px, $position-top: 1px) {
+	     -moz-box-shadow: $position-left $position-top $size $color; /* FF3.5+ */
+	  -webkit-box-shadow: $position-left $position-top $size $color; /* Saf3.0+, Chrome */
+	          box-shadow: $position-left $position-top $size $color; /* Opera 10.5, IE9, Chrome 10+ */
+}

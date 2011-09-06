@@ -1,0 +1,20 @@
+.span-20{:id => "#{@game.in_check == @game.turn ? 'board_check' : 'board'}"}
+	-@board.to_a.reverse! if @game.turn == 'b'
+	-@board.each do |row|
+		-row = row.to_a.reverse! if @game.turn == 'b'
+		-row.each do |square, box|
+			-piece, color, bc = box.split('_') 
+			-if piece != 'blank'
+				.box{:id => "#{square}"}
+					.piece{:class => "#{color}_#{piece}", :id => "#{pieceformat(piece)}#{square}", :data => {:color => "#{color}", :bc => "#{bc}"}}
+			-else
+				.box{:id => "#{square}"}=escape_once("&nbsp;")
+
+:javascript
+	var board = #{@jsonboard}; 
+	var current_color = "#{@game.turn}";
+	var cur_color = "#{@game.turn == 'b' ? 'b' : 'w'}";
+	var opposite_color = "#{@game.turn == 'b' ? 'w' : 'b'}";
+	var in_check = #{@game.in_check == @game.turn ? true : false};
+	var piece_checking = "#{@game.moves.last.to_square if @game.moves.length > 0}";
+	var game_id = #{@game.id};

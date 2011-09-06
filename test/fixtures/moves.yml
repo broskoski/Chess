@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  color: MyString
+  from_square: MyString
+  to_square: MyString
+  notation: MyString
+  puts_in_check: 
+  checkmates: 
+  ip: MyString
+
+two:
+  color: MyString
+  from_square: MyString
+  to_square: MyString
+  notation: MyString
+  puts_in_check: 
+  checkmates: 
+  ip: MyString

@@ -1,0 +1,45 @@
+<%= form_for(@move) do |f| %>
+  <% if @move.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@move.errors.count, "error") %> prohibited this move from being saved:</h2>
+
+      <ul>
+      <% @move.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :color %><br />
+    <%= f.text_field :color %>
+  </div>
+  <div class="field">
+    <%= f.label :from_square %><br />
+    <%= f.text_field :from_square %>
+  </div>
+  <div class="field">
+    <%= f.label :to_square %><br />
+    <%= f.text_field :to_square %>
+  </div>
+  <div class="field">
+    <%= f.label :notation %><br />
+    <%= f.text_field :notation %>
+  </div>
+  <div class="field">
+    <%= f.label :puts_in_check %><br />
+    <%= f.text_field :puts_in_check %>
+  </div>
+  <div class="field">
+    <%= f.label :checkmates %><br />
+    <%= f.text_field :checkmates %>
+  </div>
+  <div class="field">
+    <%= f.label :ip %><br />
+    <%= f.text_field :ip %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

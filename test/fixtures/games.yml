@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+
+one:
+  board: MyString
+  turn: MyString
+  in_check: MyString
+  winner: MyString
+
+two:
+  board: MyString
+  turn: MyString
+  in_check: MyString
+  winner: MyString
