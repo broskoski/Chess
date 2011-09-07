@@ -19,10 +19,15 @@ $(document).ready(function() {
 	if(in_check == true){
 		get_check_path(cur_color, piece_checking);
 	}
+	
+	//refresh window
+	var interval = setTimeout ( "window.location.href = window.location.href", 12000 );
+	
 	var pusher = new Pusher('d05f0eeb1099d3be9cba');
 	var channel = pusher.subscribe('chess_channel');
 	channel.bind('click',
 	  function(data) {
+		clearInterval(interval)
 		activate_square(data['data']);
 	  }
 	);
