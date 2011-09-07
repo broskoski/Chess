@@ -3,7 +3,9 @@
 	  -webkit-box-shadow: $position-left $position-top $size $color; /* Saf3.0+, Chrome */
 	          box-shadow: $position-left $position-top $size $color; /* Opera 10.5, IE9, Chrome 10+ */
 }
-
+html{
+	cursor:none;
+}
 body{
 	width:600px;
 	margin:0 auto;
@@ -29,6 +31,7 @@ body.white{
 	width:100%;
 }
 #horizontal{
+	cursor:pointer;
 	width:600px;
 	margin-left:auto;
 	margin-right:auto;
